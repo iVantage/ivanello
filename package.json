@@ -1,0 +1,17 @@
+{
+  "name": "ivanello",
+  "version": "0.0.0",
+  "description": "Gather trello data for iVantage burndown charts!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \":(\" && exit 1"
+  },
+  "author": "jtrussell",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.5.0",
+    "async": "^0.9.0",
+    "lodash.after": "^2.4.1",
+    "request": "^2.48.0"
+  }
+}

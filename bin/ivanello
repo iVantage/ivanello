@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var program = require('commander');
+
+program
+  .version(require('../package.json').version)
+  .option('--api-key <string>')
+  .option('--board-url <string>')
+  .option('--token <string>')
+  .option('--silent <bool>', false)
+  .parse(process.argv);
+
+require('../index.js')(program, function(err) {
+  if(err) {
+    throw err;
+  }
+  if(!program.silent) {
+    console.log('Done.');
+  }
+});
