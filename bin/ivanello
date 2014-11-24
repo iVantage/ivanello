@@ -11,6 +11,7 @@ program
   .option('--board-url <string>')
   .option('--token <string>')
   .option('-d, --datafile <string>')
+  .option('-o, --outfile <string>')
   .option('--silent <bool>', false)
   .parse(process.argv);
 
