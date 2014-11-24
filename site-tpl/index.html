@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css">
+</head>
+<body>
+  <section class="container">
+    <h1>{{sprintName}}</h1>
+    
+    <div id="points"></div>
+    <div id="counts"></div>
+  </section>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.4/highcharts.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.4/highcharts-more.js"></script>
+
+  <script type="text/javascript">
+    var _data = {
+      storyPoints: [
+        {{storyPointsData}}
+      ],
+      storyCount: [
+        {{storyCountData}}
+      ],
+      time: [
+        {{timeData}}
+      ]
+    };
+
+    $(function() {
+      $('#points').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '{{sprintName}} - Points'},
+        xAxis: {type: 'datetime'},
+        yAxis: [{
+          title: {
+            text: 'Story Points'
+          },
+          min: 0
+        }],
+        series: [{
+          name: 'Story Points Left',
+          data: _data.time.map(function(date, ix) {
+            return [date, _data.storyPoints[ix]];
+          })
+        }]
+      });
+    
+      $('#counts').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '{{sprintName}} - Counts'},
+        xAxis: {type: 'datetime'},
+        yAxis: [{
+          title: {
+            text: '# Stories'
+          },
+          min: 0
+        }],
+        series: [{
+          name: '# Stories Left',
+          data: _data.time.map(function(date, ix) {
+            return [date, _data.storyCount[ix]];
+          })
+        }]
+      });
+    });
+  </script>
+</body>
+</html>

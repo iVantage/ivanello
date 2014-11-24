@@ -2,21 +2,43 @@
 
 'use strict';
 
-var program = require('commander');
+var async = require('async')
+  , program = require('commander');
 
 program
   .version(require('../package.json').version)
   .option('--api-key <string>')
   .option('--board-url <string>')
   .option('--token <string>')
+  .option('-d, --datafile <string>')
   .option('--silent <bool>', false)
   .parse(process.argv);
 
-require('../index.js')(program, function(err) {
-  if(err) {
-    throw err;
+var updateLists = function(cb) {
+  if(program.apiKey && program.boardUrl && program.token) {
+    require('../lib/fetch.js')(program, cb);
+  } else {
+    cb(null);
   }
+};
+
+var updateCsv = function(cb) {
+  if(program.datafile) { 
+    require('../lib/data.js')(program, cb);
+  } else {
+    cb(null);
+  }
+};
+
+var finish = function(err) {
+  if(err) { throw err; }
   if(!program.silent) {
     console.log('Done.');
   }
-});
+};
+
+async.series([
+  updateLists,
+  updateCsv
+], finish);
+

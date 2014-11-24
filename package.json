@@ -2,9 +2,12 @@
   "name": "ivanello",
   "version": "0.0.0",
   "description": "Gather trello data for iVantage burndown charts!",
-  "main": "index.js",
+  "main": "lib/fetch.js",
   "scripts": {
     "test": "echo \":(\" && exit 1"
+  },
+  "bin": {
+    "ivanello": "bin/ivanello"
   },
   "author": "jtrussell",
   "license": "MIT",
