@@ -1,6 +1,6 @@
 {
   "name": "ivanello",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Gather trello data for iVantage burndown charts!",
   "main": "lib/fetch.js",
   "scripts": {
