@@ -2,8 +2,12 @@
 
 'use strict';
 
+var path = require('path')
+  , fs = require('fs');
+
 var async = require('async')
-  , program = require('commander');
+  , program = require('commander')
+  , saveLoc = process.cwd();
 
 program
   .version(require('../package.json').version)
@@ -12,23 +16,53 @@ program
   .option('--token <string>')
   .option('-d, --datafile <string>')
   .option('-o, --outfile <string>')
-  .option('--silent <bool>', false)
+  .option('--sprint-name <string>', 'The name of the sprint', 'Infinity')
+  .option('--end-date <string>', 'E.g. "Jan 1 2015"')
+  .option('--silent <bool>', 'Toggle output logging', false)
   .parse(process.argv);
 
+if(program.datafile && fs.existsSync(path.join(saveLoc, program.datafile))) {
+  if(!program.silent) {
+    console.log('Using data file for board url, sprint name, and end date.');
+  }
+
+  var data = require(path.join(saveLoc, program.datafile));
+  program.boardUrl = data.boardUrl || program.boardUrl;
+  program.sprintName = data.sprintName || program.sprintName;
+  program.endDate = data.endDate || program.endDate;
+}
+
 var updateLists = function(cb) {
-  if(program.apiKey && program.boardUrl && program.token) {
-    require('../lib/fetch.js')(program, cb);
-  } else {
+  return program.apiKey && program.boardUrl && program.token ?
+    require('../lib/fetch.js')(program, cb) :
+    cb(null);
+};
+
+var saveData = function(cb) {
+  if(program.datafile) {
+    var datafile = path.join(saveLoc, program.datafile)
+      , data = {};
+    if(fs.existsSync(datafile)) {
+      data = require(datafile);
+    }
+    data.boardUrl = program.boardUrl;
+    data.sprintName = program.sprintName;
+    data.endDate = program.endDate;
+    fs.writeFileSync(datafile, JSON.stringify(data));
     cb(null);
   }
 };
 
-var updateCsv = function(cb) {
-  if(program.datafile) { 
-    require('../lib/data.js')(program, cb);
-  } else {
+var updateData = function(cb) {
+  return program.datafile ?
+    require('../lib/data.js')(program, cb) :
     cb(null);
-  }
+};
+
+var makeSite = function(cb) {
+  return program.outfile ?
+    require('../lib/site.js')(program, cb) :
+    cb(null);
 };
 
 var finish = function(err) {
@@ -39,7 +73,9 @@ var finish = function(err) {
 };
 
 async.series([
+  saveData,
   updateLists,
-  updateCsv
+  updateData,
+  makeSite
 ], finish);
 
