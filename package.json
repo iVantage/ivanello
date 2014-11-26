@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Gather trello data for iVantage burndown charts!",
   "main": "lib/fetch.js",
+  "repository": "https://github.com/ivantage/ivanello.git",
   "scripts": {
     "test": "echo \":(\" && exit 1"
   },
