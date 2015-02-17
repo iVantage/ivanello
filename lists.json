@@ -2,5 +2,8 @@
   "Sprint Backlog",
   "Blocked",
   "In Progress",
-  "QA Bug Reports"
+  "Code Review",
+  "QA Bug Reports",
+  "Ready for QA Release",
+  "Ready for QA"
 ]
