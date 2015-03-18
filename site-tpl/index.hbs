@@ -106,12 +106,12 @@
         title: {text: '{{sprintName}} - Task Hours'},
         yAxis: [{
           title: {
-            text: 'Count of Task Hours'
+            text: 'Task Hours'
           },
           min: 0
         }],
         series: [{
-          name: 'Count of Task Hours Remaining',
+          name: 'Task Hours Remaining',
           color: '#BF0B23',
           data: _data.time.map(function(date, ix) {
             return [date, _data.taskHours[ix]];
