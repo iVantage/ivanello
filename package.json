@@ -13,10 +13,11 @@
   "author": "jtrussell",
   "license": "MIT",
   "dependencies": {
-    "commander": "^2.5.0",
     "async": "^0.9.0",
+    "commander": "^2.5.0",
+    "handlebars": "^2.0.0",
     "lodash.after": "^2.4.1",
-    "request": "^2.48.0",
-    "handlebars": "^2.0.0"
+    "lodash.clone": "^3.0.1",
+    "request": "^2.48.0"
   }
 }
