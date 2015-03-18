@@ -25,8 +25,10 @@
   </nav>
 
   <section class="container" style="margin-top: 30px">
-    <div id="points"></div>
-    <div id="counts"></div>
+    <div id="storyPoints"></div>
+    <div id="storyCounts"></div>
+    <div id="taskHours"></div>
+    <div id="taskCounts"></div>
   </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -41,6 +43,12 @@
       ],
       storyCount: [
         {{join storyCount}}
+      ],
+      taskHours: [
+        {{join taskHours}}
+      ],
+      taskCount: [
+        {{join taskCount}}
       ],
       time: [
         {{join time}}
@@ -62,8 +70,8 @@
     });
 
     $(function() {
-      $('#points').highcharts({
-        title: {text: '{{sprintName}} - Points'},
+      $('#storyPoints').highcharts({
+        title: {text: '{{sprintName}} - Story Points'},
         yAxis: [{
           title: {
             text: 'Story Points'
@@ -77,9 +85,9 @@
           })
         }]
       });
-    
-      $('#counts').highcharts({
-        title: {text: '{{sprintName}} - Counts'},
+
+      $('#storyCounts').highcharts({
+        title: {text: '{{sprintName}} - Story Counts'},
         yAxis: [{
           title: {
             text: 'Count of Stories'
@@ -90,6 +98,40 @@
           name: 'Count of Stories Remaining',
           data: _data.time.map(function(date, ix) {
             return [date, _data.storyCount[ix]];
+          })
+        }]
+      });
+
+      $('#taskHours').highcharts({
+        title: {text: '{{sprintName}} - Task Hours'},
+        yAxis: [{
+          title: {
+            text: 'Count of Task Hours'
+          },
+          min: 0
+        }],
+        series: [{
+          name: 'Count of Task Hours Remaining',
+          color: '#BF0B23',
+          data: _data.time.map(function(date, ix) {
+            return [date, _data.taskHours[ix]];
+          })
+        }]
+      });
+
+      $('#taskCounts').highcharts({
+        title: {text: '{{sprintName}} - Task Counts'},
+        yAxis: [{
+          title: {
+            text: 'Count of Tasks'
+          },
+          min: 0
+        }],
+        series: [{
+          name: 'Count of Tasks Remaining',
+          color: '#BF0B23',
+          data: _data.time.map(function(date, ix) {
+            return [date, _data.taskCount[ix]];
           })
         }]
       });
