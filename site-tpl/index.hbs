@@ -61,7 +61,8 @@
         type: 'datetime',
         tickInterval: 1 * 24 * 60 * 60 * 1000 // 1 Day
         {{#if endDate}}
-        , max: moment('{{endDate}}', 'MMM D YYYY').valueOf()
+        // End at 5:00 pm on the specified day.
+        , max: moment('{{endDate}}', 'MMM D YYYY').add(17,'hours').valueOf()
         {{/if}}
       },
       credits: {
