@@ -27,7 +27,9 @@
   <section class="container" style="margin-top: 30px">
     <div id="storyPoints"></div>
     <div id="storyCounts"></div>
+    {{#available taskHours}}
     <div id="taskHours"></div>
+    {{/available}}
     <div id="taskCounts"></div>
   </section>
 
@@ -103,6 +105,7 @@
         }]
       });
 
+      {{#available taskHours}}
       $('#taskHours').highcharts({
         title: {text: '{{sprintName}} - Task Hours'},
         yAxis: [{
@@ -119,6 +122,7 @@
           })
         }]
       });
+      {{/available}}
 
       $('#taskCounts').highcharts({
         title: {text: '{{sprintName}} - Task Counts'},
