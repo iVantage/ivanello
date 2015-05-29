@@ -18,6 +18,7 @@
     "handlebars": "^2.0.0",
     "lodash.after": "^2.4.1",
     "lodash.clone": "^3.0.1",
-    "request": "^2.48.0"
+    "request": "^2.48.0",
+    "node-trello": "^1.1.0"
   }
 }

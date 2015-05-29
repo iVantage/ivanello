@@ -19,6 +19,8 @@ program
   .option('--sprint-name <string>', 'The name of the sprint', 'Infinity')
   .option('--end-date <string>', 'E.g. "Jan 1 2015"')
   .option('--silent <bool>', 'Toggle output logging', false)
+  .option('--archive <bool>', 'Toggle output archiving', false)
+  .option('--archive-card <bool>', 'Card to archive to', 'Burndown')
   .parse(process.argv);
 
 if(program.datafile && fs.existsSync(path.join(saveLoc, program.datafile))) {
@@ -65,6 +67,12 @@ var makeSite = function(cb) {
     cb(null);
 };
 
+var archiveSite = function(cb) {
+  return program.archive ? 
+    require('../lib/archive.js')(program, cb) :
+    cb(null);
+};
+
 var finish = function(err) {
   if(err) { throw err; }
   if(!program.silent) {
@@ -76,6 +84,7 @@ async.series([
   saveData,
   updateLists,
   updateData,
-  makeSite
+  makeSite,
+  archiveSite
 ], finish);
 
