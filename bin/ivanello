@@ -7,7 +7,8 @@ var path = require('path')
 
 var async = require('async')
   , program = require('commander')
-  , saveLoc = process.cwd();
+  , saveLoc = process.cwd()
+  , validated = true;
 
 program
   .version(require('../package.json').version)
@@ -32,6 +33,18 @@ if(program.datafile && fs.existsSync(path.join(saveLoc, program.datafile))) {
   program.boardUrl = data.boardUrl || program.boardUrl;
   program.sprintName = data.sprintName || program.sprintName;
   program.endDate = data.endDate || program.endDate;
+} else {
+  if(!program.silent) {
+    console.log('Using input parameters only.');
+  }
+}
+
+// Check for input validity.
+if(program.boardUrl === '') {
+  if(!program.silent) {
+    console.log('Board url is required (and missing)');
+  }
+  validated = false;
 }
 
 var updateLists = function(cb) {
@@ -68,7 +81,7 @@ var makeSite = function(cb) {
 };
 
 var archiveSite = function(cb) {
-  return program.archive ? 
+  return program.archive === 'true' ? 
     require('../lib/archive.js')(program, cb) :
     cb(null);
 };
@@ -80,11 +93,12 @@ var finish = function(err) {
   }
 };
 
-async.series([
-  saveData,
-  updateLists,
-  updateData,
-  makeSite,
-  archiveSite
-], finish);
-
+if(validated) {
+  async.series([
+    saveData,
+    updateLists,
+    updateData,
+    makeSite,
+    archiveSite
+  ], finish);
+}
